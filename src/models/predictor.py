@@ -185,7 +185,7 @@ class Translator(object):
         self.src_out_file.close()
 
         if (step != -1):
-            rouges = self._report_rouge(gold_path, can_path)
+            rouges = self._report_rouge(gold_path, can_path, logger=self.logger)
             self.logger.info('Rouges at step %d \n%s' % (step, rouge_results_to_str(rouges)))
             if self.tensorboard_writer is not None:
                 self.tensorboard_writer.add_scalar('test/rouge1-F', rouges['rouge_1_f_score'], step)
@@ -193,9 +193,9 @@ class Translator(object):
                 self.tensorboard_writer.add_scalar('test/rouge3-F', rouges['rouge_3_f_score'], step)
                 self.tensorboard_writer.add_scalar('test/rougeL-F', rouges['rouge_l_f_score'], step)
 
-    def _report_rouge(self, gold_path, can_path):
+    def _report_rouge(self, gold_path, can_path, logger=None):
         self.logger.info("Calculating Rouge")
-        results_dict = test_rouge(self.args.temp_dir, can_path, gold_path)
+        results_dict = test_rouge(self.args.temp_dir, can_path, gold_path, logger=logger)
         return results_dict
 
     def translate_batch(self, batch, fast=False):

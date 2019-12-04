@@ -51,7 +51,7 @@ def process(params):
     return results_dict
 
 
-def test_rouge(temp_dir, cand, ref):
+def test_rouge(temp_dir, cand, ref, logger=None):
     candidates = [line.strip() for line in open(cand, encoding='utf-8')]
     references = [line.strip() for line in open(ref, encoding='utf-8')]
     print(len(candidates))
@@ -82,7 +82,8 @@ def test_rouge(temp_dir, cand, ref):
         r.model_filename_pattern = 'ref.#ID#.txt'
         r.system_filename_pattern = r'cand.(\d+).txt'
         rouge_results = r.convert_and_evaluate()
-        print(rouge_results)
+        # print(rouge_results)
+        logger.info('Complete Rouges \n%s' % (rouge_results))
         results_dict = r.output_to_dict(rouge_results)
     finally:
         pass
