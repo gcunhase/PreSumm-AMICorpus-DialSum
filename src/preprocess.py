@@ -8,6 +8,17 @@ from others.logging import init_logger
 from prepro import data_builder
 
 
+"""
+   Modification (Gwena Cunha):
+       * AMI DialSum Corpus:
+           *
+           
+       * AMI Corpus:
+           * Added parameter 'data_split_json' for easier customization of data split into train, test and val for custom data
+           * 'data_split_json_is_full_path': bool 
+"""
+
+
 def do_format_to_lines(args):
     print(time.clock())
     data_builder.format_to_lines(args)
@@ -16,6 +27,13 @@ def do_format_to_lines(args):
 def do_format_to_bert(args):
     print(time.clock())
     data_builder.format_to_bert(args)
+    print(time.clock())
+
+
+
+def do_format_to_lines_amidialsum(args):
+    print(time.clock())
+    data_builder.format_to_lines_amidialsum(args)
     print(time.clock())
 
 
@@ -62,6 +80,10 @@ if __name__ == '__main__':
     parser.add_argument("-use_bert_basic_tokenizer", type=str2bool, nargs='?',const=True,default=False)
 
     parser.add_argument('-log_file', default='../../logs/cnndm.log')
+    parser.add_argument('-data_split_json', default='XSum-TRAINING-DEV-TEST-SPLIT-90-5-5.json',
+                        help="Used in format_xsum_to_lines")
+    parser.add_argument('-data_split_json_is_full_path', action='store_true',
+                        help="Indicates whether data_split_json is a string with the json's full path")
 
     parser.add_argument('-dataset', default='')
 
