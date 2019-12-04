@@ -1,10 +1,26 @@
 ## About
 
-* PreSumm, presented in the EMNLP 2019 paper titled "[Text Summarization with Pretrained Encoders](https://arxiv.org/abs/1908.08345)"
-* PreSumm original code: https://www.github.com/nlpyang/PreSumm
-* Purpose of this repository
-    * Best performing model with PreSumm: [CNN/DM BertExtAbs](https://drive.google.com/open?id=1-IKVCtc4Q-BdZpjXc4s70_fRsWnjtYLr)
-    * Fine-tune that model with AMI Meeting Corpus
+#### Disclaimer
+The PreSumm model, presented in the EMNLP 2019 paper titled "[Text Summarization with Pretrained Encoders](https://arxiv.org/abs/1908.08345)" [[original code](https://www.github.com/nlpyang/PreSumm)], is not my work. Please credit the appropriate authors for that model.
+
+#### Purpose of this repository
+* Need to use PreSumm as baseline model for comparison with a custom dataset
+* Using the pre-trained model `BertExtAbs`, fine-tune PreSumm with the custom dataset 
+
+#### Dataset
+[AMI DialSum Meeting Corpus](gihub.com/MiuLab/DialSum) [[paper](arxiv.org/abs/1809.05715)]
+
+#### My modifications
+* Data pre-processing
+    * `src/ami_dialsum_corpus_story.py`: script to format the AMI DialSum Corpus into the same CNN/DM `.story` format
+    * In `src/prepo/data_builder.py`: added function `format_to_lines_amidialsum()` for use in *'Step 4'* of pre-processing the custom data
+        * Needed because the custom data is already split into train/test/dev and there was no function to deal with this situation
+    * In `src/preprocess.py`: addition of `-mode format_to_lines_amidialsum`
+    
+* Fine-tuning PreSumm
+    * Load the [BertExtAbs pre-trained weights](https://drive.google.com/open?id=1-IKVCtc4Q-BdZpjXc4s70_fRsWnjtYLr) as `-load_from_extractive ../models/bertsumextabs_cnndm_final_model_step_148000.pt`
+ 
+* Notes on extra steps needed to run PyRouge 
 
 ## Requirements
 Python 3.5.2
@@ -75,7 +91,9 @@ python preprocess.py -mode format_to_bert -raw_path ../json_data -save_path ../b
 
 ## Model Training
 
-**First run: For the first time, you should use single-GPU, so the code can download the BERT model. Use ``-visible_gpus -1``, after downloading, you could kill the process and rerun the code with multi-GPUs.**
+* Download best performing model with PreSumm: [CNN/DM BertExtAbs](https://drive.google.com/open?id=1-IKVCtc4Q-BdZpjXc4s70_fRsWnjtYLr)
+
+* **First run: For the first time, you should use single-GPU, so the code can download the BERT model. Use ``-visible_gpus -1``, after downloading, you could kill the process and rerun the code with multi-GPUs.**
 
 ### Abstractive Setting with BertExtAbs
 ```
