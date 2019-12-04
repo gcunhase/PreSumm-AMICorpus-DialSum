@@ -557,7 +557,7 @@ class Rouge155(object):
                 '-m',
                 # '-v',
                 '-r', 1000,
-                '-n', 2,
+                '-n', 3,  # used in paper: 2 (so ROUGE-1 and 2 only are calculated), but we also need ROUGE-3.
                 # '-w', 1.2,
                 '-a',
                 ]
