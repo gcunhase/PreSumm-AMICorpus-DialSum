@@ -4,3 +4,4 @@ venv*/*
 
 stanford-corenlp-*/*
 temp*/*
+src/pyrouge/*
