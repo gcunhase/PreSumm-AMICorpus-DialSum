@@ -19,8 +19,15 @@ The PreSumm model, presented in the EMNLP 2019 paper titled "[Text Summarization
     
 * Fine-tuning PreSumm
     * Load the [BertExtAbs pre-trained weights](https://drive.google.com/open?id=1-IKVCtc4Q-BdZpjXc4s70_fRsWnjtYLr) as `-load_from_extractive ../models/bertsumextabs_cnndm_final_model_step_148000.pt`
+
+* Evaluation:
+    * (TODO) In ``: save results file with scores called `[MODEL_NAME].[CKP_TRAIN_STEP].scores`
  
-* Notes on extra steps needed to run PyRouge 
+* PyRouge:
+    * Installation: notes on extra steps needed to run PyRouge
+    * In `src/others/pyrouge.py` in line 560: changed option `-n` to 3 instead of 2 so ROUGE-3 can also be calculated
+    * In `src/others/utils.py`: return dictionary updated with extra information ("rouge_3_f_score" and "rouge_3_recall")
+    * In `src/models/predictor.py`: update `tensorboard_writer` with ROUGE-3
 
 ## Requirements
 Python 3.5.2
@@ -106,10 +113,27 @@ python train.py -task abs -mode train -bert_data_path ../bert_data/ami_dialsum_c
 
 ## Model Evaluation
 ### AMI DialSum Corpus
+* Output in `logs` directory
+    * Target transcripts: `abs_bert_amidialsum.[CKP_TRAIN_STEP].raw_src`
+    * Target summaries: `abs_bert_amidialsum.[CKP_TRAIN_STEP].gold`
+    * Generated summaries: `abs_bert_amidialsum.[CKP_TRAIN_STEP].candidate`
+    * log (includes some scores): `test_abs_bert_amidialsum`
+    
+* Check specific checkpoint by using `-test_from ../models/amidialsum_model/model_step_2000.pt`:
+```
+python train.py -task abs -mode test -test_from ../models/amidialsum_model/model_step_2000.pt -batch_size 3000 -test_batch_size 400 -bert_data_path ../bert_data/ami_dialsum_corpus_bin/ami_dialsum_corpus -log_file ../logs/test_abs_bert_amidialsum -model_path ../models/amidialsum_model -sep_optim true -use_interval true -visible_gpus 1 -max_pos 512 -max_length 200 -alpha 0.95 -min_length 50 -result_path ../logs/abs_bert_amidialsum
+
+python train.py -task abs -mode test -test_from ../models/amidialsum_model_longer/model_step_60000.pt -batch_size 3000 -test_batch_size 400 -bert_data_path ../bert_data/ami_dialsum_corpus_bin/ami_dialsum_corpus -log_file ../logs/test_abs_bert_amidialsum_longer -model_path ../models/amidialsum_model_longer -sep_optim true -use_interval true -visible_gpus 1 -max_pos 512 -max_length 200 -alpha 0.95 -min_length 50 -result_path ../logs/abs_bert_amidialsum_longer
+```
+> amidialsum_model at step 2000: ROUGE-F(1/2/3/l): 9.40/6.80/9.33, ROUGE-R(1/2/3/l): 50.47/44.60/50.24
+
+> amidialsum_model at step 60000: ROUGE-F(1/2/3/l): 11.45/7.70/11.29, ROUGE-R(1/2/3/l): 65.04/54.02/64.47
+
+ 
+
+* Check all saved checkpoints:
 ```
 python train.py -task abs -mode validate -batch_size 3000 -test_batch_size 400 -bert_data_path ../bert_data/ami_dialsum_corpus_bin/ami_dialsum_corpus -log_file ../logs/val_abs_bert_amidialsum -model_path ../models/amidialsum_model -sep_optim true -use_interval true -visible_gpus 1 -max_pos 512 -max_length 200 -alpha 0.95 -min_length 50 -result_path ../logs/abs_bert_amidialsum
-
-python train.py -task abs -mode test -test_from model_step_2000.pt -batch_size 3000 -test_batch_size 400 -bert_data_path ../bert_data/ami_dialsum_corpus_bin/ami_dialsum_corpus -log_file ../logs/val_abs_bert_amidialsum -model_path ../models/amidialsum_model -sep_optim true -use_interval true -visible_gpus 1 -max_pos 512 -max_length 200 -alpha 0.95 -min_length 50 -result_path ../logs/abs_bert_amidialsum
 ```
 
 
@@ -123,6 +147,15 @@ python train.py -task abs -mode test -test_from model_step_2000.pt -batch_size 3
 * Current: -mode train and load pre-trained weights given by authors
     * What is -finetune_bert param?
 
+
+## Results on AMI DialSum Corpus
+Rouge F and Recall score
+
+| Model                   |  F-1  |  F-2  |  F-3  |  F-L  | R-1   |  R-2  |  R-3  |  R-L  |
+| ----------------------- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
+| Sentence-Gated          |   -   |   -   |   -   |   -   | 68.34 | 39.25 | 29.05 | 49.93 |
+| PreSumm                 |
+| Bert-Transformer (ours) |
 
 
 
