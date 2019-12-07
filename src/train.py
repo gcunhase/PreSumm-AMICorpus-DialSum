@@ -103,6 +103,7 @@ if __name__ == '__main__':
     parser.add_argument("-test_all", type=str2bool, nargs='?',const=True,default=False)
     parser.add_argument("-test_from", default='')
     parser.add_argument("-test_start_from", default=-1, type=int)
+    parser.add_argument("-dont_calculate_rouge", type=str2bool, nargs='?', const=False, default=False)
 
     parser.add_argument("-train_from", default='')
     parser.add_argument("-report_rouge", type=str2bool, nargs='?',const=True,default=True)
@@ -132,7 +133,7 @@ if __name__ == '__main__':
                 step = int(cp.split('.')[-2].split('_')[-1])
             except:
                 step = 0
-            test_abs(args, device_id, cp, step)
+            test_abs(args, device_id, cp, step, calculate_rouge=args.dont_calculate_rouge)
         elif (args.mode == 'test_text'):
             cp = args.test_from
             try:

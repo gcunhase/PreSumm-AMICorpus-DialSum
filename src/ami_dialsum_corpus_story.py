@@ -58,14 +58,14 @@ def transform_to_story(args, sent_detector):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Converts file to .story')
-    parser.add_argument('--ami_dialsum_data_dir', type=str, default='data/ami_dialsum_corpus/',
+    parser.add_argument('--ami_dialsum_data_dir', type=str, default='../raw_data/ami_dialsum_corpus/',
                         help='AMI DialSum Corpus directory')
     parser.add_argument('--input_filename', type=str, default='in',
                         help='AMI DialSum Corpus input filename')
     parser.add_argument('--summary_filename', type=str, default='sum',
                         help='AMI DialSum Corpus summary (target) filename')
     parser.add_argument('--results_story_dir', type=str,
-                        default='data/ami_dialsum_corpus_stories/',
+                        default='../raw_data/ami_dialsum_corpus_stories/',
                         help='AMI Corpus .story files')
     args = parser.parse_args()
 

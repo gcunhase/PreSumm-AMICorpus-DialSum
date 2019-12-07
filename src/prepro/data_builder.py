@@ -28,6 +28,7 @@ nyt_remove_words = ["photo", "graph", "chart", "map", "table", "drawing"]
 """
     Modification (Gwena Cunha):
         * Addition of function `format_to_lines_amidialsum` for AMI DialSum Corpus
+        * Addition of function `format_to_lines_customdata` for Custom Data for test
 """
 
 
@@ -353,6 +354,17 @@ def format_to_lines(args):
         # else:
         #     train_files.append(f)
 
+    _files_dict_to_json(args, train_files, valid_files, test_files)
+
+
+def _format_to_lines(params):
+    f, args = params
+    print(f)
+    source, tgt = load_json(f, args.lower)
+    return {'src': source, 'tgt': tgt}
+
+
+def _files_dict_to_json(args, train_files, valid_files, test_files):
     corpora = {'train': train_files, 'valid': valid_files, 'test': test_files}
     for corpus_type in ['train', 'valid', 'test']:
         a_lst = [(f, args) for f in corpora[corpus_type]]
@@ -378,15 +390,6 @@ def format_to_lines(args):
                 save.write(json.dumps(dataset))
                 p_ct += 1
                 dataset = []
-
-
-def _format_to_lines(params):
-    f, args = params
-    print(f)
-    source, tgt = load_json(f, args.lower)
-    return {'src': source, 'tgt': tgt}
-
-
 
 def format_to_lines_amidialsum(args):
 
@@ -398,32 +401,16 @@ def format_to_lines_amidialsum(args):
     for f in glob.glob(pjoin(args.raw_path + '/valid', '*.json')):
         valid_files.append(f)
 
-    corpora = {'train': train_files, 'valid': valid_files, 'test': test_files}
-    for corpus_type in ['train', 'valid', 'test']:
-        a_lst = [(f, args) for f in corpora[corpus_type]]
-        pool = Pool(args.n_cpus)
-        dataset = []
-        p_ct = 0
-        for d in pool.imap_unordered(_format_to_lines, a_lst):
-            dataset.append(d)
-            if (len(dataset) > args.shard_size):
-                pt_file = "{:s}.{:s}.{:d}.json".format(args.save_path, corpus_type, p_ct)
-                with open(pt_file, 'w') as save:
-                    # save.write('\n'.join(dataset))
-                    save.write(json.dumps(dataset))
-                    p_ct += 1
-                    dataset = []
+    _files_dict_to_json(args, train_files, valid_files, test_files)
 
-        pool.close()
-        pool.join()
-        if (len(dataset) > 0):
-            pt_file = "{:s}.{:s}.{:d}.json".format(args.save_path, corpus_type, p_ct)
-            with open(pt_file, 'w') as save:
-                # save.write('\n'.join(dataset))
-                save.write(json.dumps(dataset))
-                p_ct += 1
-                dataset = []
 
+def format_to_lines_customdata(args):
+
+    train_files, valid_files, test_files = [], [], []
+    for f in glob.glob(pjoin(args.raw_path, '*.json')):
+        test_files.append(f)
+
+    _files_dict_to_json(args, train_files, valid_files, test_files)
 
 
 def format_xsum_to_lines(args):

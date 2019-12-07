@@ -11,8 +11,10 @@ from prepro import data_builder
 """
    Modification (Gwena Cunha):
        * AMI DialSum Corpus:
-           *
+           * 'do_format_to_lines_amidialsum'
            
+       * Custom Data: 'do_format_to_lines_customdata'
+       
        * AMI Corpus:
            * Added parameter 'data_split_json' for easier customization of data split into train, test and val for custom data
            * 'data_split_json_is_full_path': bool 
@@ -36,6 +38,10 @@ def do_format_to_lines_amidialsum(args):
     data_builder.format_to_lines_amidialsum(args)
     print(time.clock())
 
+def do_format_to_lines_customdata(args):
+    print(time.clock())
+    data_builder.format_to_lines_customdata(args)
+    print(time.clock())
 
 
 def do_format_xsum_to_lines(args):

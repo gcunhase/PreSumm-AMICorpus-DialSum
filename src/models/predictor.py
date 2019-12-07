@@ -122,7 +122,7 @@ class Translator(object):
 
     def translate(self,
                   data_iter, step,
-                  attn_debug=False):
+                  attn_debug=False, calculate_rouge=True):
 
         self.model.eval()
         gold_path = self.args.result_path + '.%d.gold' % step
@@ -184,7 +184,7 @@ class Translator(object):
         self.gold_out_file.close()
         self.src_out_file.close()
 
-        if (step != -1):
+        if (step != -1 and calculate_rouge):
             rouges = self._report_rouge(gold_path, can_path, logger=self.logger)
             self.logger.info('Rouges at step %d \n%s' % (step, rouge_results_to_str(rouges)))
             if self.tensorboard_writer is not None:

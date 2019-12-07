@@ -197,7 +197,7 @@ def validate(args, device_id, pt, step):
     return stats.xent()
 
 
-def test_abs(args, device_id, pt, step):
+def test_abs(args, device_id, pt, step, calculate_rouge=True):
     device = "cpu" if args.visible_gpus == '-1' else "cuda"
     if (pt != ''):
         test_from = pt
@@ -222,7 +222,7 @@ def test_abs(args, device_id, pt, step):
     symbols = {'BOS': tokenizer.vocab['[unused0]'], 'EOS': tokenizer.vocab['[unused1]'],
                'PAD': tokenizer.vocab['[PAD]'], 'EOQ': tokenizer.vocab['[unused2]']}
     predictor = build_predictor(args, tokenizer, symbols, model, logger)
-    predictor.translate(test_iter, step)
+    predictor.translate(test_iter, step, calculate_rouge=calculate_rouge)
 
 
 def test_text_abs(args, device_id, pt, step):
