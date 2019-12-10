@@ -11,10 +11,6 @@ LOG_FILE="${ROOT_RESULT}/eval.log"
 BERT_DATA_FULL="${BERT_DATA}/${DATA_PATH}"  # Path to data + prefix
 
 
-JSON_DATA_PATH="../json_data/${DATA_PATH}"
-BERT_DATA="../bert_data/${DATA_PATH}_bin"
-PRE_PROCESS=true
-
 # Export CoreNLP tokenizer
 # export CLASSPATH=../stanford-corenlp-full-2018-10-05/stanford-corenlp-3.9.2.jar
 
@@ -27,10 +23,17 @@ for DATA_TYPE in "train" "test" "valid"; do
 done
 
 # Format to Simpler Json Files
-# Makedir `../json_data/ami_dialsum` and run the following
-python preprocess.py -mode format_to_lines_amidialsum -raw_path ../raw_data/ami_dialsum_corpus_tokenized -save_path ../json_data/ami_dialsum/ami_dialsum_corpus -n_cpus 1 -use_bert_basic_tokenizer false -log_file ../logs/ami_dialsum_corpus.log
+JSON_DATA_PATH="../json_data/${DATA_PATH}"
+mkdir $JSON_DATA_PATH
+SAVE_PATH="${JSON_DATA_PATH}/${DATA_PATH}"
+RAW_PATH="${ROOT_DATA_PATH}/${DATA_PATH}_tokenized"
+LOG_FILE="${ROOT_RESULT}/${DATA_PATH}.log"
+python preprocess.py -mode format_to_lines_amidialsum -raw_path $RAW_PATH -save_path $SAVE_PATH -n_cpus 1 -use_bert_basic_tokenizer false -log_file $LOG_FILE
 
 
-
-# Step 5. Format to PyTorch Files: make dir `../bert_data/ami_dialsum_corpus_bin` and run the following
-python preprocess.py -mode format_to_bert -raw_path ../json_data/ami_dialsum -save_path ../bert_data/ami_dialsum_corpus_bin  -lower -n_cpus 1 -log_file ../logs/preprocess.log
+# Step 5. Format to PyTorch Files
+RAW_PATH=$JSON_DATA_PATH
+SAVE_PATH="../bert_data/${DATA_PATH}_bin"
+mkdir $SAVE_PATH
+LOG_FILE="${ROOT_RESULT}/preprocess.log"
+python preprocess.py -mode format_to_bert -raw_path $RAW_PATH -save_path $SAVE_PATH -lower -n_cpus 1 -log_file $LOG_FILE
