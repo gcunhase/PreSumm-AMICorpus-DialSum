@@ -1,7 +1,7 @@
 ## About
 Additional notes regarding code.
 
-#### My modifications
+#### My code modifications
 * Data pre-processing
     * `src/ami_dialsum_corpus_story.py`: script to format the AMI DialSum Corpus into the same CNN/DM `.story` format
     * In `src/prepo/data_builder.py`: added function `format_to_lines_amidialsum()` for use in *'Step 4'* of pre-processing the custom data
@@ -165,67 +165,10 @@ python train.py -task abs -mode validate -batch_size 3000 -test_batch_size 400 -
 ```
 
 
-
-## NOTES
+## Notes
 
 * View loss curve: `tensorboard --logdir=models/amidialsum_model/`
 
 * TODO: save best checkpoint only
 * Current: -mode train and load pre-trained weights given by authors
     * What is -finetune_bert param?
-
-
-## OTHER NOTES
-### Steps modified for AMI Meeting Corpus:
-* Step 3. Sentence Splitting and Tokenization
-
-```
-python preprocess.py -mode tokenize -raw_path ../raw_data/ami_meeting_raw/abstractive -save_path ../raw_data/ami_meeting_tokenized -log_file ../logs/ami_meeting.log
-```
-
-* Step 4. Format to Simpler Json Files
-    * AMI Corpus doesn't have `-map_path` for `train, val, test`
-    * Modification: `-mode format_to_lines` changed to `-mode format_xsum_to_lines`
-    * Added `-data_split_json_is_full_path -data_split_json ../raw_data/ami_meeting_data_split.json`
-
-```
-python preprocess.py -mode format_xsum_to_lines -data_split_json_is_full_path -data_split_json ../raw_data/ami_meeting_data_split.json -raw_path ../raw_data/ami_meeting_tokenized -save_path ../json_data/ami_meeting -n_cpus 1 -use_bert_basic_tokenizer false -log_file ../logs/ami_meeting.log
-```
-
-`MAP_PATH` is the  directory containing the urls files (`../urls`)
-
-
-
-
-//-----------------------------------
-
-
-## Data Preparation For CNN-DM
-
-* Step 2
-```
-export CLASSPATH=~/Gwena/PreSumm/stanford-corenlp-full-2018-10-05/stanford-corenlp-3.9.2.jar
-```
-
-* Step 3. Sentence Splitting and Tokenization
-
-```
-python preprocess.py -mode tokenize -raw_path ../raw_data/cnndm_raw -save_path ../raw_data/cnndm_tokenized -log_file ../logs/cnndm_corpus_train.log
-```
-
-* Step 4. Format to Simpler Json Files: make dir `../json_data/cnndm` and run the following
-```
-python preprocess.py -mode format_to_lines -raw_path ../raw_data/cnndm_tokenized -save_path ../json_data/cnndm/cnndm -n_cpus 1 -use_bert_basic_tokenizer false -log_file ../logs/cnndm.log -map_path ../urls
-```
-
-* Step 5. Format to PyTorch Files: make dir `../bert_data/ami_dialsum_corpus_bin` and run the following
-```
-python preprocess.py -mode format_to_bert -raw_path ../json_data/cnndm -save_path ../bert_data/cnndm_bin_manualprocessing  -lower -n_cpus 1 -log_file ../logs/preprocess.log
-```
-
-* Test:
-```
-python train.py -task abs -mode test -test_from ../models/bertsumextabs_cnndm_final_model_step_148000_downloaded2.pt -batch_size 3000 -test_batch_size 400 -bert_data_path ../bert_data/cnndm_bin/cnndm -log_file ../logs/cnndm_test/test_abs_bert_cnndm_pretrain_download2 -model_path ../models -sep_optim true -use_interval true -visible_gpus 0 -max_pos 512 -max_length 200 -alpha 0.95 -min_length 50 -result_path ../logs/cnndm_test/abs_bert_cnndm_pretrain_download2
-```
-
-//-----------------------------------

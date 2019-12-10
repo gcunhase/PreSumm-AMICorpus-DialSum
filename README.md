@@ -8,7 +8,7 @@ The PreSumm model, presented in the EMNLP 2019 paper titled "[Text Summarization
 * Using the pre-trained model `BertExtAbs`, fine-tune PreSumm with the custom dataset 
 
 ### Contents
-[My modifications](./README_notes.md#my-modifications) • [Requirements](#requirements) • [How to Use](#how-to-use) • [How to Cite](#acknowledgement)
+[My code modifications](./README_notes.md#my-modifications) • [Requirements](#requirements) • [How to Use](#how-to-use) • [How to Cite](#acknowledgement)
 
 ## Requirements
 Python 3.5.2
