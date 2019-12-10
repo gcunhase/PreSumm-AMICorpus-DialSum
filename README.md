@@ -12,7 +12,7 @@ The PreSumm model, presented in the EMNLP 2019 paper titled "[Text Summarization
 [Requirements](#requirements) • [How to Use](#how-to-use) • [How to Cite](#acknowledgement)
 
 ## Requirements
-Python 3.5.2, PyRouge [[notes](./README_notes.md)]
+Python 3.5.2, PyRouge [[notes](./README_notes.md#pyrouge-notes)]
 
 ```
 pip install -r requirements.txt
@@ -24,6 +24,7 @@ pip install -r requirements.txt
 2. Download best performing model with PreSumm: [CNN/DM BertExtAbs](https://drive.google.com/open?id=1-IKVCtc4Q-BdZpjXc4s70_fRsWnjtYLr)
 
 ### A. Evaluate on untrained BertSumExtAbs 
+Modify script with directory where BertSumExtAbs weights are saved and run:
 ```
 ./src/load_custom_data_an_eval.sh
 ```
