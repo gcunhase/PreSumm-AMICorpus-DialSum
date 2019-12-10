@@ -4,11 +4,12 @@
 The PreSumm model, presented in the EMNLP 2019 paper titled "[Text Summarization with Pretrained Encoders](https://arxiv.org/abs/1908.08345)" [[original code](https://www.github.com/nlpyang/PreSumm)], is not my work. Please credit the appropriate authors for that model.
 
 #### Purpose of this repository
-* Need to use PreSumm as baseline model for comparison with a custom dataset
-* Using the pre-trained model `BertExtAbs`, fine-tune PreSumm with the custom dataset 
+* Need to use PreSumm as baseline model for comparison with a custom dataset.
+* Using the pre-trained model `BertExtAbs`, fine-tune PreSumm with the custom dataset.
+* [Additional notes are available](./README_notes.md), including [my code modifications](./README_notes.md#my-modifications) in detail.
 
 ### Contents
-[My code modifications](./README_notes.md#my-modifications) • [Requirements](#requirements) • [How to Use](#how-to-use) • [How to Cite](#acknowledgement)
+[Requirements](#requirements) • [How to Use](#how-to-use) • [How to Cite](#acknowledgement)
 
 ## Requirements
 Python 3.5.2
