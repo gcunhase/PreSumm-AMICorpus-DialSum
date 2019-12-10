@@ -39,11 +39,10 @@ pip install -r requirements.txt
     * Convert to `.story` with `src/ami_dialsum_corpus_story.py`
     * Run `./src/prepare_amidialsum_data.sh`
 
-4. Fine-tune model with AMI DIalSum dataset
-    * Train with modified settings (`train_steps`, `lrbert`, `lrdec`, `warmup*`, ...)
-        ```
-        ./src/train.sh
-        ```
+4. Fine-tune model with AMI DIalSum dataset (modified settings such as `train_steps`, `lrbert`, `lrdec`, `warmup*`, ...)
+    ```
+    ./src/fine_tuning.sh
+    ```
 
 5. Evaluate
     ```
