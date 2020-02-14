@@ -127,6 +127,13 @@ python train.py -task abs -mode train -bert_data_path ../bert_data/ami_dialsum_c
 python train.py -task abs -mode test -test_from ../models/amidialsum_model_longer_bertfinetune_fromScratch/model_step_4000.pt -batch_size 3000 -test_batch_size 400 -bert_data_path ../bert_data/ami_dialsum_corpus_bin/ami_dialsum_corpus -log_file ../logs/test_abs_bert_amidialsum_longer_bertfinetune_fromScratch -model_path ../models/amidialsum_model_longer_bertfinetune_fromScratch -sep_optim true -use_interval true -visible_gpus 0 -max_pos 512 -max_length 200 -alpha 0.95 -min_length 50 -result_path ../logs/abs_bert_amidialsum_longer_bertfinetune_fromScratch
 ```
 
+### Abstractive Settings with BertAbs
+* Download pre-processed CNN/DM data from original PreSum repository [[download](https://drive.google.com/open?id=1DN7ClZCCXsk2KegmC6t4ClBwtAf5galI)]
+* Train:
+```
+python train.py -task abs -mode train -bert_data_path ../bert_data/bert_data_cnndm_final/cnndm -dec_dropout 0.2  -model_path ../models/cnndm_bertabs -sep_optim true -lr_bert 0.002 -lr_dec 0.2 -save_checkpoint_steps 2000 -batch_size 140 -train_steps 200000 -report_every 50 -accum_count 5 -use_bert_emb true -use_interval true -warmup_steps_bert 20000 -warmup_steps_dec 10000 -max_pos 512 -visible_gpus -1  -log_file ../logs/cnndm_bertabs
+```
+
 ## Model Evaluation
 ### AMI DialSum Corpus
 * Output in `logs` directory
